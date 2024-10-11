@@ -13,6 +13,10 @@ const saslMechanism = process.env.REDPANDA_SASL_MECHANISM || 'SCRAM-SHA-256';
 const username = process.env.REDPANDA_USERNAME || 'workshop';
 const password = process.env.REDPANDA_PASSWORD || '1234qwer';
 
+console.log('brokers: %s', brokers);
+console.log('username: %s', username);
+console.log('pass: %s', password);
+
 const kafka = new Kafka({
     clientId: 'rpg-frontend',
     brokers: brokers,
