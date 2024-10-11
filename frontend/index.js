@@ -18,7 +18,7 @@ console.log('username: %s', username);
 console.log('pass: %s', password);
 
 const kafka = new Kafka({
-    clientId: 'rpg-frontend',
+    // clientId: 'rpg-frontend',
     brokers: brokers,
     ssl: {},
     sasl: {
