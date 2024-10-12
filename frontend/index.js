@@ -28,8 +28,10 @@ const kafka = new Kafka({
     }
 });
 const producer = kafka.producer();
-const consumer = kafka.consumer({ groupId: 'rpg-group' });
-const bonusConsumer = kafka.consumer({ groupId: 'bonus-group' });
+//const consumer = kafka.consumer({ groupId: 'rpg-group' });
+const consumer = kafka.consumer();
+//const bonusConsumer = kafka.consumer({ groupId: 'bonus-group' });
+const bonusConsumer = kafka.consumer();
 
 const setupKafka = async () => {
     await producer.connect();
