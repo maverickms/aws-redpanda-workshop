@@ -32,15 +32,15 @@ console.log('Connecting producer');
 const producer = kafka.producer();
 console.log('Connecting consume rpg-group');
 const consumer = kafka.consumer({ groupId: 'rpg-group' });
-// console.log('Connecting consumer bonus-group');
-// const bonusConsumer = kafka.consumer({ groupId: 'bonus-group' });
+console.log('Connecting consumer bonus-group');
+const bonusConsumer = kafka.consumer({ groupId: 'bonus-group' });
 
 const setupKafka = async () => {
     await producer.connect();
     await consumer.connect();
-    //await bonusConsumer.connect();
+    await bonusConsumer.connect();
     await consumer.subscribe({ topic: 'rpg-response' });
-    //await bonusConsumer.subscribe({ topic: 'bonus' });
+    await bonusConsumer.subscribe({ topic: 'bonus' });
 
     console.log('running consumer');
     
@@ -52,15 +52,15 @@ const setupKafka = async () => {
         },
       });
 
-    // console.log('running bonus consumer');
+    console.log('running bonus consumer');
     
-    // bonusConsumer.run({
-    //     eachMessage: async ({ topic, partition, message }) => {
-    //       const value = message.value.toString();  
-    //       const jsonData = JSON.parse(value);  
-    //       io.emit('bonus-message', jsonData);  
-    //     },
-    // });
+    bonusConsumer.run({
+        eachMessage: async ({ topic, partition, message }) => {
+          const value = message.value.toString();  
+          const jsonData = JSON.parse(value);  
+          io.emit('bonus-message', jsonData);  
+        },
+    });
   };
 
   setupKafka();
