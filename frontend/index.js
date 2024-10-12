@@ -27,11 +27,13 @@ const kafka = new Kafka({
         password: password
     }
 });
+
+console.log('Connecting producer');
 const producer = kafka.producer();
-//const consumer = kafka.consumer({ groupId: 'rpg-group' });
-const consumer = kafka.consumer();
-//const bonusConsumer = kafka.consumer({ groupId: 'bonus-group' });
-const bonusConsumer = kafka.consumer();
+console.log('Connecting consume rpg-group');
+const consumer = kafka.consumer({ groupId: 'rpg-group' });
+console.log('Connecting consumer bonus-group');
+const bonusConsumer = kafka.consumer({ groupId: 'bonus-group' });
 
 const setupKafka = async () => {
     await producer.connect();
@@ -40,6 +42,8 @@ const setupKafka = async () => {
     await consumer.subscribe({ topic: 'rpg-response' });
     await bonusConsumer.subscribe({ topic: 'bonus' });
 
+    console.log('running consumer');
+    
     consumer.run({
         eachMessage: async ({ topic, partition, message }) => {
           const value = message.value.toString();  // Convert buffer to string
@@ -48,6 +52,8 @@ const setupKafka = async () => {
         },
       });
 
+    console.log('running bonus consumer');
+    
     bonusConsumer.run({
         eachMessage: async ({ topic, partition, message }) => {
           const value = message.value.toString();  
